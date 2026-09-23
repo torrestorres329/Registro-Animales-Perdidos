@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/BLL/BLL.csproj" />
+    <Project Path="src/DAL/DAL.csproj" />
+    <Project Path="src/Entidades/Entidades.csproj" />
+    <Project Path="src/UI/UI.csproj" />
+  </Folder>
+</Solution>

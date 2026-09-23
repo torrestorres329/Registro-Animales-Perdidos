@@ -133,15 +133,38 @@ El sistema debe estar organizado mediante una arquitectura de cuatro capas:
 UI, BLL, DAL y Entidades.
 
 ---
+## 8. Seguridad e ISO/IEC 27001
 
-# 8. Seguridad e ISO/IEC 27001
+Para el desarrollo del sistema se consideran aspectos relacionados con la
+seguridad de la información, buscando proteger los datos registrados,
+mantener su integridad y controlar el acceso a las operaciones del sistema.
 
-Los requerimientos consideran aspectos relacionados con la seguridad de la
-información, especialmente la protección, integridad y control de acceso a
-los datos.
+Los principales aspectos de seguridad considerados son:
 
-Los controles de seguridad serán considerados durante el diseño y desarrollo
-del sistema para reducir riesgos asociados al manejo de la información.
+| Requerimiento | Medida de seguridad |
+|---|---|
+| RF01 - Registrar animal perdido | Validar los datos obligatorios antes de guardar la información. |
+| RF02 - Consultar animales perdidos | Permitir la consulta de la información almacenada de manera controlada. |
+| RF03 - Actualizar información | Verificar que el registro exista y validar los datos antes de modificarlo. |
+| RF04 - Eliminar registro | Solicitar confirmación antes de eliminar y controlar la operación. |
+| RF05 - Validar información | Evitar que datos incorrectos o incompletos sean almacenados. |
+
+Aspectos de seguridad considerados
+
+* Confidencialidad: controlar el acceso a las operaciones del sistema y a
+    la información almacenada.
+* Integridad: validar los datos y mantener relaciones correctas en la base
+    de datos para evitar información inconsistente.
+* Disponibilidad: mantener la información disponible para las operaciones
+    del sistema cuando la aplicación y la base de datos estén funcionando.
+* Control de acceso: restringir las operaciones de modificación y
+    eliminación a usuarios autorizados.
+* Manejo de errores: evitar mostrar información técnica de la base de
+    datos o de la aplicación directamente al usuario.
+
+Estos aspectos serán considerados durante el diseño de la aplicación, la base
+de datos y las diferentes capas del sistema, tomando como referencia los
+principios de seguridad de la información asociados a ISO/IEC 27001.
 
 ---
 
