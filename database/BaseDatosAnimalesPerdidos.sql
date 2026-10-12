@@ -223,3 +223,18 @@ BEGIN
         P.Nombre;
 END;
 GO
+USE RegistroAnimalesPerdidos;
+GO
+
+-- 10. Obtener cantidad de animales por categoria
+CREATE OR ALTER PROCEDURE ObtenerAnimalesPorCategoria
+AS
+BEGIN
+    SELECT
+        Especie AS Categoria,
+        COUNT(*) AS Cantidad
+    FROM AnimalesPerdidos
+    GROUP BY Especie
+    ORDER BY Especie;
+END;
+GO

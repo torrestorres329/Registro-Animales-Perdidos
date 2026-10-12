@@ -28,10 +28,11 @@ namespace UI
         private Button btnActualizar;
         private Button btnEliminar;
         private Button btnLimpiar;
+        private Button btnConsultarCategoria;
         private TextBox txtConsultaPersona;
 private Button btnConsultarPersona;
 private Label lblCantidadAnimales;
-private Button btnConsultarCategoria;
+
 
         public Form1()
         {
