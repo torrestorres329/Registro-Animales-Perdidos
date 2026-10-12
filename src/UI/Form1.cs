@@ -28,6 +28,10 @@ namespace UI
         private Button btnActualizar;
         private Button btnEliminar;
         private Button btnLimpiar;
+        private TextBox txtConsultaPersona;
+private Button btnConsultarPersona;
+private Label lblCantidadAnimales;
+private Button btnConsultarCategoria;
 
         public Form1()
         {
@@ -39,7 +43,7 @@ namespace UI
         private void CrearInterfaz()
         {
             this.Text = "Registro de Animales Perdidos";
-            this.Size = new Size(1000, 650);
+            this.Size = new Size(1100, 800);
             this.StartPosition = FormStartPosition.CenterScreen;
 
             Label titulo = new Label();
@@ -76,7 +80,37 @@ namespace UI
             btnRegistrar = CrearBoton("Registrar", 30, 490);
             btnActualizar = CrearBoton("Actualizar", 130, 490);
             btnEliminar = CrearBoton("Eliminar", 230, 490);
+            Label lblConsulta = new Label();
+lblConsulta.Text = "Consultar por ID Persona:";
+lblConsulta.Location = new Point(400, 500);
+lblConsulta.AutoSize = true;
+this.Controls.Add(lblConsulta);
+
+txtConsultaPersona = new TextBox();
+txtConsultaPersona.Location = new Point(550, 497);
+txtConsultaPersona.Size = new Size(100, 25);
+txtConsultaPersona.ReadOnly = false;
+txtConsultaPersona.Enabled = true;
+txtConsultaPersona.TabStop = true;
+txtConsultaPersona.BackColor = Color.White;
+txtConsultaPersona.ForeColor = Color.Black;
+
+this.Controls.Add(txtConsultaPersona);
+txtConsultaPersona.BringToFront();
+
+btnConsultarPersona = CrearBoton("Consultar", 660, 490);
+btnConsultarPersona.Click += BtnConsultarPersona_Click;
+
+lblCantidadAnimales = new Label();
+lblCantidadAnimales.Text = "Cantidad de animales: 0";
+lblCantidadAnimales.Location = new Point(400, 540);
+lblCantidadAnimales.AutoSize = true;
+lblCantidadAnimales.Font = new Font("Arial", 10, FontStyle.Bold);
+this.Controls.Add(lblCantidadAnimales);
             btnLimpiar = CrearBoton("Limpiar", 330, 490);
+
+btnConsultarCategoria = CrearBoton("Categorías", 330, 540);
+btnConsultarCategoria.Click += BtnConsultarCategoria_Click;
 
             btnRegistrar.Click += BtnRegistrar_Click;
             btnActualizar.Click += BtnActualizar_Click;
@@ -245,9 +279,60 @@ namespace UI
                 txtDescripcion.Text = fila.Cells["Descripcion"].Value?.ToString();
                 txtLugar.Text = fila.Cells["LugarPerdida"].Value?.ToString();
                 txtEstado.Text = fila.Cells["Estado"].Value?.ToString();
+                txtIdPersona.Text = fila.Cells["IdPersona"].Value?.ToString();
             }
         }
+private void BtnConsultarPersona_Click(object sender, EventArgs e)
+{
+    try
+    {
+        if (!int.TryParse(txtConsultaPersona.Text, out int idPersona))
+        {
+            MessageBox.Show("Ingrese un ID de persona válido.");
+            return;
+        }
 
+        DataTable animales = animalBLL.ConsultarPorPersona(idPersona);
+        dgvAnimales.DataSource = animales;
+
+        DataTable resumen = animalBLL.ObtenerResumenPorPersona(idPersona);
+
+        if (resumen.Rows.Count > 0)
+        {
+            int cantidad = Convert.ToInt32(resumen.Rows[0]["CantidadAnimales"]);
+            string nombre = resumen.Rows[0]["NombrePersona"].ToString();
+
+            lblCantidadAnimales.Text =
+                "Persona: " + nombre +
+                " | Cantidad de animales: " + cantidad;
+        }
+        else
+        {
+            lblCantidadAnimales.Text = "La persona no tiene animales registrados.";
+        }
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show("No se pudo realizar la consulta: " + ex.Message);
+    }
+}
+private void BtnConsultarCategoria_Click(object sender, EventArgs e)
+{
+    try
+    {
+        DataTable categorias = animalBLL.ObtenerPorCategoria();
+
+        dgvAnimales.DataSource = categorias;
+
+        lblCantidadAnimales.Text = "Resumen de animales por categoría";
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show(
+            "No se pudo consultar por categoría: " + ex.Message
+        );
+    }
+}
         private void BtnLimpiar_Click(object sender, EventArgs e)
         {
             Limpiar();

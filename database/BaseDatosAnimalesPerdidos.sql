@@ -183,3 +183,43 @@ BEGIN
     WHERE IdAnimal = @IdAnimal;
 END;
 GO
+-- 8. Obtener animales de una persona
+CREATE OR ALTER PROCEDURE ObtenerAnimalesPorPersona
+    @IdPersona INT
+AS
+BEGIN
+    SELECT
+        A.IdAnimal,
+        A.Nombre,
+        A.Especie,
+        A.Raza,
+        A.Color,
+        A.Descripcion,
+        A.FechaPerdida,
+        A.LugarPerdida,
+        A.Estado,
+        A.IdPersona
+    FROM AnimalesPerdidos A
+    WHERE A.IdPersona = @IdPersona;
+END;
+GO
+
+
+-- 9. Obtener resumen de animales por persona
+CREATE OR ALTER PROCEDURE ObtenerResumenAnimalesPorPersona
+    @IdPersona INT
+AS
+BEGIN
+    SELECT
+        P.IdPersona,
+        P.Nombre AS NombrePersona,
+        COUNT(A.IdAnimal) AS CantidadAnimales
+    FROM Personas P
+    LEFT JOIN AnimalesPerdidos A
+        ON P.IdPersona = A.IdPersona
+    WHERE P.IdPersona = @IdPersona
+    GROUP BY
+        P.IdPersona,
+        P.Nombre;
+END;
+GO

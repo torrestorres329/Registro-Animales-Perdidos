@@ -35,7 +35,33 @@ namespace BLL
 
             animalDAL.Eliminar(idAnimal);
         }
+// CONSULTAR ANIMALES DE UNA PERSONA
+public DataTable ConsultarPorPersona(int idPersona)
+{
+    if (idPersona <= 0)
+    {
+        throw new Exception("El ID de la persona no es válido.");
+    }
 
+    return animalDAL.ListarPorPersona(idPersona);
+}
+
+
+// OBTENER RESUMEN DE ANIMALES DE UNA PERSONA
+public DataTable ObtenerResumenPorPersona(int idPersona)
+{
+    if (idPersona <= 0)
+    {
+        throw new Exception("El ID de la persona no es válido.");
+    }
+
+    return animalDAL.ResumenPorPersona(idPersona);
+}
+// OBTENER ANIMALES POR CATEGORIA
+public DataTable ObtenerPorCategoria()
+{
+    return animalDAL.ListarPorCategoria();
+}
         private void Validar(AnimalPerdido animal)
         {
             if (animal == null)

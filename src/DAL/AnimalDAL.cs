@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Entidades;
@@ -98,5 +97,71 @@ namespace DAL
                 }
             }
         }
+
+        // CONSULTAR ANIMALES POR PERSONA
+        public DataTable ListarPorPersona(int idPersona)
+        {
+            DataTable tabla = new DataTable();
+
+            using (SqlConnection cn = conexion.ObtenerConexion())
+            {
+                using (SqlCommand cmd = new SqlCommand("ObtenerAnimalesPorPersona", cn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@IdPersona", idPersona);
+
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                    {
+                        adapter.Fill(tabla);
+                    }
+                }
+            }
+
+            return tabla;
+        }
+
+        // RESUMEN DE ANIMALES POR PERSONA
+        public DataTable ResumenPorPersona(int idPersona)
+        {
+            DataTable tabla = new DataTable();
+
+            using (SqlConnection cn = conexion.ObtenerConexion())
+            {
+                using (SqlCommand cmd = new SqlCommand("ObtenerResumenAnimalesPorPersona", cn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@IdPersona", idPersona);
+
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                    {
+                        adapter.Fill(tabla);
+                    }
+                }
+            }
+
+            return tabla;
+        }
+        // RESUMEN DE ANIMALES POR CATEGORIA
+public DataTable ListarPorCategoria()
+{
+    DataTable tabla = new DataTable();
+
+    using (SqlConnection cn = conexion.ObtenerConexion())
+    {
+        using (SqlCommand cmd = new SqlCommand("ObtenerAnimalesPorCategoria", cn))
+        {
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+            {
+                adapter.Fill(tabla);
+            }
+        }
+    }
+
+    return tabla;
+}
     }
 }
